@@ -8,7 +8,7 @@ use parazeet\PayMaster\Responses\Response;
 use parazeet\PayMaster\Config\ConfigContract;
 use parazeet\PayMaster\Validator\ValidatorContract;
 
-class PayMasterJsonApi
+class PayMasterApi
 {
     private $validator;
     private $guzzleClient;
