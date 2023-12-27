@@ -6,9 +6,9 @@ use parazeet\PayMaster\Models\Invoice;
 
 class InvoiceResponse implements Response
 {
-    public function __construct()
-    {
-    }
+    public function __construct(
+        public object $invoice,
+    ){}
 
     public static function fromResponse($response): self
     {

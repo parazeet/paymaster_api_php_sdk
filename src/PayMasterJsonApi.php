@@ -19,16 +19,6 @@ class PayMasterJsonApi
     public const METHOD_PUT = 'put';
     public const METHOD_POST = 'post';
 
-    protected const AVAILABLE_URI = [
-        'invoices',
-        'payments',
-        'refunds',
-        'tokenization',
-        'paymenttokens',
-        'receipts',
-        'stickers',
-    ];
-
     public function __construct(ConfigContract $config, ValidatorContract $validator)
     {
         $this->config = $config;
@@ -65,12 +55,13 @@ class PayMasterJsonApi
         return $jsonResponse;
     }
 
-    public function postInvoise(Request $objRequest)
+    public function post(Request $objRequest): Response
     {
-        return $this->send($objRequest, self::METHOD_POST, $this->config->url($objRequest->getUri()));
+        $response = $this->send($objRequest, self::METHOD_POST, $this->config->url($objRequest->getUri()));
+        return $objRequest->createResponse($response);
     }
 
-    public function getPaymentId(Request $objRequest, int $id): Response
+    public function getId(Request $objRequest, int $id): Response
     {
         $url = $this->config->url($objRequest->getUri()) . $id;
         $response = $this->send($objRequest, self::METHOD_GET, $url);
@@ -78,7 +69,7 @@ class PayMasterJsonApi
         return $objRequest->createResponse($response);
     }
 
-    public function getPayments(Request $objRequest, array $queryParameters): Response
+    public function getQuery(Request $objRequest, array $queryParameters): Response
     {
         $url = $this->config->url($objRequest->getUri());
 
@@ -93,16 +84,10 @@ class PayMasterJsonApi
         return $objRequest->createResponse($response['items']);
     }
 
-    public function putPayment(Request $objRequest, $id, $type /*complete,confirm,cancel*/)
+    public function put(Request $objRequest, $id, $type /*complete,confirm,cancel*/)
     {
         $url = $this->config->url($objRequest->getUri()) . $id . '/' . $type;
 
         return $this->send($objRequest, self::METHOD_PUT, $url);
-    }
-
-    public function postPayment(Request $objRequest): Response
-    {
-        $response = $this->send($objRequest, self::METHOD_POST, $this->config->url($objRequest->getUri()));
-        return $objRequest->createResponse($response);
     }
 }

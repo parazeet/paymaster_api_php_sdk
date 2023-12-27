@@ -13,13 +13,13 @@ class PaymentResponse implements Response
     public static function fromResponse($response): self
     {
         if (array_is_list($response)) {
-            return new self(self::resp_list($response));
+            return new self(self::getModelList($response));
         } else {
-            return new self(self::resp_array($response));
+            return new self(self::getModelArray($response));
         }
     }
 
-    protected static function resp_list($response): array
+    protected static function getModelList($response): array
     {
         return array_map(fn($key, $response) => new Payment(
             $response['id'],
@@ -37,7 +37,7 @@ class PaymentResponse implements Response
         ), array_keys($response), array_values($response));
     }
 
-    protected static function resp_array($response): Payment
+    protected static function getModelArray($response): Payment
     {
         return new Payment(
             $response['id'],
@@ -55,29 +55,3 @@ class PaymentResponse implements Response
         );
     }
 }
-// {
-//     "id": "12769",
-//     "created":"2021-09-01T08:20:00Z",
-//     "testMode": false,
-//     "status": "Confirmation",
-//     "resultCode": "Success",
-//     "merchantId": "96es4ve9-8bce-40fd-86cb-d34db393fed68",
-//     "amount": {
-//       "value": 10.5000,
-//       "currency": "RUB"
-//     },
-//     "invoice": {
-//       "description": "test payment",
-//       "params": {
-//         "BT_USR": "34"
-//       }
-//     },
-//     "paymentData": {
-//       "paymentMethod": "BankCard"
-//     },
-//     "confirmation": {
-//       "type": "ThreeDSv1",
-//       "acsUrl": "https://paymaster.ru/acs/pareq",
-//       "PAReq": "eJxVUtuO0...v4BOrji7g=="
-//     }
-//   }
