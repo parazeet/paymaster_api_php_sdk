@@ -2,6 +2,7 @@
 https://paymaster.ru/docs/ru/api
 
 [![License](https://img.shields.io/packagist/l/vinevax/steam-php-api.svg?style=flat-square)](https://packagist.org/packages/vinevax/steam-php-api)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/parazeet/paymaster_api_php_sdk.svg?style=flat-square)](https://packagist.org/packages/parazeet/paymaster_api_php_sdk)
 
 ## Installation
 
