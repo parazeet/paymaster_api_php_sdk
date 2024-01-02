@@ -12,10 +12,12 @@ class Config implements ConfigContract
 
     public function __construct(
         string $apiKey,
+        string|null $idempotencyKey = null,
         string $aipUrl = 'https://paymaster.ru/api/v2/'
     ) {
         $this->apiKey = $apiKey;
         $this->apiUrl = $aipUrl;
+        $this->idempotencyKey = $idempotencyKey;
     }
 
     public function url(string $url): string
@@ -25,8 +27,10 @@ class Config implements ConfigContract
 
     public function keyHeader(): array
     {
+        $idempotencyKey = !empty($this->idempotencyKey) ? ['Idempotency-Key' => $this->idempotencyKey] : [];
+
         return [
-            'Authorization' => 'Bearer ' . $this->apiKey
-        ];
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ] + $idempotencyKey;
     }
 }
