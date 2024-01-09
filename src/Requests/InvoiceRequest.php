@@ -24,28 +24,28 @@ class InvoiceRequest extends Request
         parent::__construct($this->uri, $this->response);
     }
 
-    public function merchantId(string $merchantId) //required
+    public function merchantId(string $merchantId): InvoiceRequest|static //required
     {
         $this->merchantId = $merchantId;    //required string	Идентификатор магазина
 
         return clone $this;
     }
 
-    public function dualMode(bool $dualMode)
+    public function dualMode(bool $dualMode): InvoiceRequest|static
     {
         $this->dualMode = $dualMode;    //bool	Флаг DMS платежа (по-умолчанию false)
 
         return clone $this;
     }
 
-    public function testMode(bool $testMode)
+    public function testMode(bool $testMode): InvoiceRequest|static
     {
         $this->testMode = $testMode;    //bool	Флаг тестового платежа (по-умолчанию false)
 
         return clone $this;
     }
 
-    public function tokenization(array $tokenization)
+    public function tokenization(array $tokenization): InvoiceRequest|static
     {
         $this->tokenization = [
             'type' => $tokenization['type'],    //required string Тип платежного токена (cof / recurring)
@@ -62,7 +62,7 @@ class InvoiceRequest extends Request
         return clone $this;
     }
 
-    public function invoice(array $invoice) //required
+    public function invoice(array $invoice): InvoiceRequest|static //required
     {
         $this->invoice = [
             'description' => $invoice['description'],  //required string	Назначение платежа
@@ -83,7 +83,7 @@ class InvoiceRequest extends Request
         return clone $this;
     }
 
-    public function amount(array $amount) //required
+    public function amount(array $amount): InvoiceRequest|static //required
     {
         $this->amount = [
             'value' => $amount['value'],    //required decimal	Сумма к оплате
@@ -93,14 +93,14 @@ class InvoiceRequest extends Request
         return clone $this;
     }
 
-    public function paymentMethod(string $paymentMethod)
+    public function paymentMethod(string $paymentMethod): InvoiceRequest|static
     {
         $this->paymentMethod = $paymentMethod;   //string	bankcard/sbp/qiwi
 
         return clone $this;
     }
 
-    public function protocol(array $protocol)
+    public function protocol(array $protocol): InvoiceRequest|static
     {
         if (array_key_exists('returnUrl', $protocol)) {
             $this->protocol['returnUrl'] = $protocol['returnUrl']; //string	Страница, на которую нужно направить пользователя после оплаты
@@ -113,7 +113,7 @@ class InvoiceRequest extends Request
         return clone $this;
     }
 
-    public function customer(array $customer)
+    public function customer(array $customer): InvoiceRequest|static
     {
         if (array_key_exists('email', $customer)) {
             $this->customer['email'] = $customer['email']; //string	e-mail пользователя
@@ -131,7 +131,7 @@ class InvoiceRequest extends Request
         return clone $this;
     }
 
-    public function receipt(array $receipt)
+    public function receipt(array $receipt): InvoiceRequest|static
     {
         $this->receipt = [
             'client' => $receipt['client'],    //required Данные покупателя

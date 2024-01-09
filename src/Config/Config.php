@@ -2,22 +2,14 @@
 
 namespace parazeet\PayMaster\Config;
 
-use parazeet\PayMaster\Config\ConfigContract;
-
 class Config implements ConfigContract
 {
-    private $apiKey;
-    private $apiUrl;
-    private $idempotencyKey;
-
     public function __construct(
-        string $apiKey,
-        string|null $idempotencyKey = null,
-        string $aipUrl = 'https://paymaster.ru/api/v2/'
-    ) {
-        $this->apiKey = $apiKey;
-        $this->apiUrl = $aipUrl;
-        $this->idempotencyKey = $idempotencyKey;
+        private readonly string  $apiKey,
+        private readonly ?string $idempotencyKey = null,
+        private readonly string  $apiUrl = 'https://paymaster.ru/api/v2/'
+    )
+    {
     }
 
     public function url(string $url): string
@@ -29,8 +21,9 @@ class Config implements ConfigContract
     {
         $idempotencyKey = !empty($this->idempotencyKey) ? ['Idempotency-Key' => $this->idempotencyKey] : [];
 
-        return [
-            'Authorization' => 'Bearer ' . $this->apiKey,
-        ] + $idempotencyKey;
+        return array_merge(
+            ['Authorization' => 'Bearer ' . $this->apiKey],
+            $idempotencyKey
+        );
     }
 }

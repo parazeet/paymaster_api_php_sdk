@@ -3,17 +3,18 @@
 namespace parazeet\PayMaster;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use parazeet\PayMaster\Config\ConfigContract;
 use parazeet\PayMaster\Requests\Request;
 use parazeet\PayMaster\Responses\Response;
-use parazeet\PayMaster\Config\ConfigContract;
 use parazeet\PayMaster\Validator\ValidatorContract;
 
 class PayMasterApi
 {
-    private $validator;
-    private $guzzleClient;
-    private $config;
-    private $requestOptions;
+    private ValidatorContract $validator;
+    private Client $guzzleClient;
+    private ConfigContract $config;
+    private array $requestOptions;
 
     public const METHOD_GET = 'get';
     public const METHOD_PUT = 'put';
@@ -32,15 +33,20 @@ class PayMasterApi
         $this->requestOptions = [
             'connect_timeout' => 30,
             'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ] + $this->config->keyHeader()
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ] + $this->config->keyHeader()
         ];
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function send(Request $objRequest, $method, $url): array
     {
-        $body = $method == self::METHOD_GET ? [] : ['body' => \json_encode($objRequest->toArray())];
+        $body = ($method == self::METHOD_GET)
+            ? []
+            : ['body' => json_encode($objRequest->toArray())];
 
         $response = $this->guzzleClient->request(
             $method,
@@ -55,12 +61,18 @@ class PayMasterApi
         return $jsonResponse;
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function post(Request $objRequest): Response
     {
         $response = $this->send($objRequest, self::METHOD_POST, $this->config->url($objRequest->getUri()));
         return $objRequest->createResponse($response);
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function getId(Request $objRequest, int $id): Response
     {
         $url = $this->config->url($objRequest->getUri()) . $id;
@@ -69,6 +81,9 @@ class PayMasterApi
         return $objRequest->createResponse($response);
     }
 
+    /**
+     * @throws GuzzleException
+     */
     public function getQuery(Request $objRequest, array $queryParameters): Response
     {
         $url = $this->config->url($objRequest->getUri());
@@ -84,7 +99,11 @@ class PayMasterApi
         return $objRequest->createResponse($response['items']);
     }
 
-    public function put(Request $objRequest, $id, $type /*complete,confirm,cancel*/)
+    /**
+     * @param mixed $type examples: complete, confirm, cancel
+     * @throws GuzzleException
+     */
+    public function put(Request $objRequest, $id, $type): array
     {
         $url = $this->config->url($objRequest->getUri()) . $id . '/' . $type;
 
