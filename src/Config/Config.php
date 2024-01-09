@@ -21,8 +21,9 @@ class Config implements ConfigContract
     {
         $idempotencyKey = !empty($this->idempotencyKey) ? ['Idempotency-Key' => $this->idempotencyKey] : [];
 
-        return [
-            'Authorization' => 'Bearer ' . $this->apiKey,
-        ] + $idempotencyKey;
+        return array_merge(
+            ['Authorization' => 'Bearer ' . $this->apiKey],
+            $idempotencyKey
+        );
     }
 }
