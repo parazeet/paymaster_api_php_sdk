@@ -73,7 +73,7 @@ class PayMasterApi
     /**
      * @throws GuzzleException
      */
-    public function getId(Request $objRequest, int $id): Response
+    public function getId(Request $objRequest, int|string $id): Response
     {
         $url = $this->config->url($objRequest->getUri()) . $id;
         $response = $this->send($objRequest, self::METHOD_GET, $url);
