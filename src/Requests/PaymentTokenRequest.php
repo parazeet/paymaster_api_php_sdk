@@ -2,13 +2,13 @@
 
 namespace parazeet\PayMaster\Requests;
 
-use parazeet\PayMaster\Responses\TokenizationResponse;
+use parazeet\PayMaster\Responses\PaymentTokenResponse;
 
 class PaymentTokenRequest extends Request
 {
     protected string $id;
     private string $uri = 'paymenttokens';
-    private string $response = TokenizationResponse::class;
+    private string $response = PaymentTokenResponse::class;
 
     public function __construct()
     {
