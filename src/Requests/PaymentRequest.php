@@ -98,9 +98,11 @@ class PaymentRequest extends Request
 
     public function paymentData(array $paymentData) //required Платежные данные
     {
-        $this->paymentData = [
-            'paymentMethod' => $paymentData['paymentMethod'] //required string	Способ оплаты - bankcard/sbp/qiwi
-        ];
+        if (array_key_exists('paymentMethod', $paymentData)) {
+            $this->paymentData = [
+                'paymentMethod' => $paymentData['paymentMethod'] //string	Способ оплаты - bankcard/sbp/qiwi
+            ];
+        }
 
         if (array_key_exists('card', $paymentData)) {
             $this->paymentData['card'] = [  //Данные карты;
