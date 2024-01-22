@@ -15,7 +15,7 @@ composer require "parazeet/paymaster_api_php_sdk"
 
 First create a new instance of `parazeet\PayMaster\PayMasterApi` with your API key.
 You can get your API key from [here](https://paymaster.ru/cpl/currentusertokens).
-You can create `Idempotency-Key` using the library [here](https://packagist.org/packages/ramsey/uuid) like `Uuid::uuid4())->toString()` (need for Post request).
+You can create `Idempotency-Key` using the library [here](https://packagist.org/packages/ramsey/uuid) like `Uuid::uuid4()->toString()` (need for Post request).
 
 ```php
 use parazeet\PayMaster\PayMasterApi;
@@ -52,7 +52,7 @@ $api->post($objInvoiceRequest);
 
 ```php
 $api->post(Request $objRequest);
-$api->getId(Request $objRequest, int $id);
+$api->getId(Request $objRequest, int|string $id);
 $api->getQuery(Request $objRequest, array $queryParameters);
 $api->put(Request $objRequest, $id, $type /*complete,confirm,cancel,revoke*/);
 ```
