@@ -15,9 +15,9 @@ class PaymentTokenResponse implements Response
         return new self(new PaymentToken(
             $response['id'],
             $response['status'],
-            $response['title'],
-            $response['expires'],
-            $response['cardInfo']
+            $response['title'] ?? '',
+            $response['expires'] ?? '',
+            $response['cardInfo'] ?? []
         ));
     }
 }
