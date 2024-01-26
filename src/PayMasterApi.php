@@ -44,9 +44,9 @@ class PayMasterApi
      */
     private function send(Request $objRequest, $method, $url): array
     {
-        $body = ($method == self::METHOD_GET)
+        $body = ($method == self::METHOD_GET or $method == self::METHOD_PUT)
             ? []
-            : ['body' => json_encode($objRequest->toArray())];
+            : ['body' => \json_encode($objRequest->toArray())];
 
         $response = $this->guzzleClient->request(
             $method,
