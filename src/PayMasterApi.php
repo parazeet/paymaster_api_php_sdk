@@ -42,7 +42,7 @@ class PayMasterApi
     /**
      * @throws GuzzleException
      */
-    private function send(Request $objRequest, $method, $url): array
+    private function send(Request $objRequest, $method, $url): array|bool
     {
         $body = ($method == self::METHOD_GET or $method == self::METHOD_PUT)
             ? []
@@ -53,6 +53,14 @@ class PayMasterApi
             $url,
             $this->requestOptions + $body
         );
+
+        if ($method == self::METHOD_PUT) {
+            if ($response->getStatusCode() == 200) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         $jsonResponse = json_decode($response->getBody()->getContents(), true) ?? [];
 
