@@ -111,7 +111,7 @@ class PayMasterApi
      * @param mixed $type examples: complete, confirm, cancel
      * @throws GuzzleException
      */
-    public function put(Request $objRequest, $id, $type): array
+    public function put(Request $objRequest, $id, $type): array|bool
     {
         $url = $this->config->url($objRequest->getUri()) . $id . '/' . $type;
 
